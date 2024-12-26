@@ -1,0 +1,123 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/Suchakree11/6504053620125/blob/main/Tool%20work\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "from collections import Counter\n",
+        "\n",
+        "def count_runs(trials):\n",
+        "    counts = Counter()\n",
+        "    current_run = 0\n",
+        "\n",
+        "    for trial in trials:\n",
+        "        if trial == 1:  # Success\n",
+        "            current_run += 1\n",
+        "        elif current_run > 0:  # End of a run\n",
+        "            counts[current_run] += 1\n",
+        "            current_run = 0\n",
+        "    if current_run > 0:  # Handle case if last trials end in a run\n",
+        "        counts[current_run] += 1\n",
+        "\n",
+        "    return counts\n",
+        "\n",
+        "# Example usage\n",
+        "import numpy as np\n",
+        "\n",
+        "# Example 1\n",
+        "print(count_runs([0, 1, 0, 1, 1, 0, 0, 0, 0, 1]))  # Counter({1: 2, 2: 1})\n",
+        "\n",
+        "# Example 2\n",
+        "trials = np.random.randint(0, 2, 1000000)\n",
+        "print(count_runs(trials))  # Counter with observed run lengths\n"
+      ],
+      "metadata": {
+        "id": "oKRLRt2s7ILk",
+        "outputId": "db4aec56-aa06-44c2-e0a7-24744cfb9f62",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "execution_count": 1,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "Counter({1: 2, 2: 1})\n",
+            "Counter({1: 124298, 2: 62825, 3: 31206, 4: 15844, 5: 7955, 6: 3855, 7: 1965, 8: 971, 9: 507, 10: 248, 11: 130, 12: 53, 13: 28, 14: 18, 15: 4, 16: 3, 17: 1})\n"
+          ]
+        }
+      ]
+    },
+    {
+      "cell_type": "code",
+      "source": [],
+      "metadata": {
+        "id": "nLNGAC4b9DNk"
+      },
+      "execution_count": null,
+      "outputs": []
+    },
+    {
+      "cell_type": "code",
+      "source": [
+        "def run_prob(expts, n, k, p):\n",
+        "    success_count = 0\n",
+        "\n",
+        "    for _ in range(expts):\n",
+        "        trials = np.random.binomial(1, p, n)\n",
+        "        counts = count_runs(trials)\n",
+        "        if any(run_length >= k for run_length in counts):\n",
+        "            success_count += 1\n",
+        "\n",
+        "    return success_count / expts\n",
+        "\n",
+        "# Example usage\n",
+        "print(run_prob(expts=100000, n=100, k=5, p=0.5))  # Expected ~0.80704\n",
+        "print(run_prob(expts=100000, n=100, k=7, p=0.7))  # Expected ~0.94881\n",
+        "\n"
+      ],
+      "metadata": {
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        },
+        "id": "D6KXXqfB7VLl",
+        "outputId": "2e57d5c3-8921-49f1-86cc-bac6cdcd935d"
+      },
+      "execution_count": 2,
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "0.81008\n",
+            "0.94859\n"
+          ]
+        }
+      ]
+    }
+  ],
+  "metadata": {
+    "colab": {
+      "name": "Welcome To Colab",
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "display_name": "Python 3",
+      "name": "python3"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
